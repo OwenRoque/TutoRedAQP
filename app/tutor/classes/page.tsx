@@ -374,7 +374,7 @@ export default function TutorClassesPage() {
                                             {cls.status === "completada" && cls.studentFeedback && (
                                                 <div className="bg-green-50 p-3 rounded-lg mb-4">
                                                     <h4 className="font-medium text-green-800 mb-1">Comentario del estudiante:</h4>
-                                                    <p className="text-green-700 text-sm">"{cls.studentFeedback}"</p>
+                                                    <p className="text-green-700 text-sm">`&quot;`{cls.studentFeedback}`&quot;`</p>
                                                     {cls.rating && (
                                                         <div className="flex items-center space-x-1 mt-2">
                                                             <span className="text-sm text-green-600">Calificación:</span>

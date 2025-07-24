@@ -59,7 +59,8 @@ const tutorData = {
   ],
 }
 
-export default function TutorProfilePage({ params }: { params: { id: string } }) {
+// { params }: { params: { id: string } }
+export default function TutorProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}

@@ -77,11 +77,11 @@ const getPerformanceColor = (performance: string) => {
     }
 }
 
-const getComprehensionColor = (level: number) => {
-    if (level >= 80) return "bg-green-500"
-    if (level >= 60) return "bg-yellow-500"
-    return "bg-red-500"
-}
+// const getComprehensionColor = (level: number) => {
+//     if (level >= 80) return "bg-green-500"
+//     if (level >= 60) return "bg-yellow-500"
+//     return "bg-red-500"
+// }
 
 export default function StudentProgressPage() {
     const averageComprehension = Math.round(

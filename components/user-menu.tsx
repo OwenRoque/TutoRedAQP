@@ -9,7 +9,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { User, Brain, Calendar, TrendingUp, Settings, LogOut } from "lucide-react"
+import { User, Brain, Calendar, TrendingUp, LogOut } from "lucide-react"
 
 interface UserMenuProps {
     userType: "student" | "tutor"

@@ -64,7 +64,7 @@ export default function HomePage() {
             <div className="flex items-center space-x-4">
               {/* Simular usuario logueado - en producción esto vendría del estado de autenticación */}
               {true ? (
-                  <UserMenu userType="student" userName="Juan Pérez" />
+                  <UserMenu userType="tutor" userName="Juan Pérez" />
               ) : (
                   <>
                     <Link href="/auth/login">
