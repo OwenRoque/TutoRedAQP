@@ -30,12 +30,12 @@ const tutorData = {
 }
 
 const timeSlots = ["14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"]
+//
+// type BookingPageProps = {
+//   params: { id: string }
+// }
 
-type BookingPageProps = {
-  params: { id: string }
-}
-
-export default function BookingPage({ params }: BookingPageProps) {
+export default async function BookingPage({ params }: { params: { id: string } }) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [selectedTime, setSelectedTime] = useState("")
   const [selectedModality, setSelectedModality] = useState("")
