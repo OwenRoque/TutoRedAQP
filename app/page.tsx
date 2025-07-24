@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Star, MapPin, Clock, Users, BookOpen, Award } from "lucide-react"
 import Image from "next/image"
+import { UserMenu } from "@/components/user-menu"
 
 const featuredTutors = [
   {
@@ -12,29 +13,29 @@ const featuredTutors = [
     subjects: ["Matemáticas", "Física"],
     university: "UNSA",
     rating: 4.9,
-    reviews: 127,
+    reviews: 15,
     price: 25,
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/img/user-placeholder.svg?height=100&width=100",
   },
   {
     id: 2,
+    name: "Gilbert Espinoza",
+    subjects: ["Química", "Matemáticas", "Física"],
+    university: "UNSA",
+    rating: 5,
+    reviews: 17,
+    price: 30,
+    image: "/img/gilbert-tutor.jpg?height=100&width=100",
+  },
+  {
+    id: 3,
     name: "Carlos Mendoza",
     subjects: ["Química", "Biología"],
     university: "UCSM",
     rating: 4.8,
-    reviews: 89,
+    reviews: 10,
     price: 30,
-    image: "/placeholder.svg?height=100&width=100",
-  },
-  {
-    id: 3,
-    name: "Ana Quispe",
-    subjects: ["Literatura", "Historia"],
-    university: "UNSA",
-    rating: 4.9,
-    reviews: 156,
-    price: 20,
-    image: "/placeholder.svg?height=100&width=100",
+    image: "/img/user-placeholder.svg?height=100&width=100",
   },
 ]
 
@@ -61,14 +62,24 @@ export default function HomePage() {
               </Link>
             </nav>
             <div className="flex items-center space-x-4">
-              <Link href="/auth/login">
-                <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50">
-                  Iniciar Sesión
-                </Button>
-              </Link>
-              <Link href="/auth/register">
-                <Button className="bg-orange-600 hover:bg-orange-700">Registrarse</Button>
-              </Link>
+              {/* Simular usuario logueado - en producción esto vendría del estado de autenticación */}
+              {true ? (
+                  <UserMenu userType="student" userName="Juan Pérez" />
+              ) : (
+                  <>
+                    <Link href="/auth/login">
+                      <Button
+                          variant="outline"
+                          className="border-orange-600 text-orange-600 hover:bg-orange-50 bg-transparent"
+                      >
+                        Iniciar Sesión
+                      </Button>
+                    </Link>
+                    <Link href="/auth/register">
+                      <Button className="bg-orange-600 hover:bg-orange-700">Registrarse</Button>
+                    </Link>
+                  </>
+              )}
             </div>
           </div>
         </div>
@@ -95,7 +106,7 @@ export default function HomePage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-3"
+                className="border-orange-600 text-orange-600 hover:bg-orange-50 px-8 py-3 bg-transparent"
               >
                 Explorar tutores
               </Button>
@@ -301,13 +312,13 @@ export default function HomePage() {
                   <MapPin className="h-4 w-4" />
                   <span>Arequipa, Perú</span>
                 </div>
-                <div>contacto@tutoriaaqp.com</div>
+                <div>contacto.tutoredaqp@gmail.com</div>
                 <div>+51 955 636 247</div>
               </div>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 TutoRedAQP. Todos los derechos reservados.</p>
+            <p>&copy; 2025 TutoRedAQP. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>

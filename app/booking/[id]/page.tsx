@@ -18,14 +18,14 @@ import Image from "next/image"
 
 // Mock data del tutor
 const tutorData = {
-  id: 1,
-  name: "María González",
-  subjects: ["Matemáticas", "Física"],
+  id: 2,
+  name: "Gilbert Espinoza",
+  subjects: ["Química", "Matemáticas", "Física"],
   university: "UNSA",
-  rating: 4.9,
-  reviews: 127,
-  price: 25,
-  image: "/placeholder.svg?height=80&width=80",
+  rating: 5,
+  reviews: 17,
+  price: 30,
+  image: "/img/gilbert-tutor.jpg?height=100&width=100",
   modality: ["Virtual", "Presencial"],
 }
 

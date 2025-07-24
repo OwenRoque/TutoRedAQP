@@ -9,51 +9,51 @@ import Image from "next/image"
 
 // Mock data - en una app real vendría de una API
 const tutorData = {
-  id: 1,
-  name: "María González",
-  subjects: ["Matemáticas", "Física"],
+  id: 2,
+  name: "Gilbert Espinoza",
+  subjects: ["Química", "Matemáticas", "Física"],
   university: "Universidad Nacional de San Agustín (UNSA)",
-  rating: 4.9,
-  reviews: 127,
-  price: 25,
-  image: "/placeholder.svg?height=150&width=150",
+  rating: 5,
+  // reviews: 17,
+  price: 30,
+  image: "/img/gilbert-tutor.jpg?height=150&width=150",
   modality: ["Virtual", "Presencial"],
-  experience: "3 años",
-  bio: "Estudiante de Ingeniería Civil con pasión por la enseñanza. He ayudado a más de 200 estudiantes a mejorar sus notas en matemáticas y física. Mi metodología se basa en ejemplos prácticos y ejercicios progresivos.",
+  experience: "4 años",
+  bio: "Soy un estudiante de 4to año en Ingeniería de Telecomunicaciones, y ex-alumno destacado del COAR - Arequipa. Tengo amplia experiencia preparando alumnos en reforzamiento escolar en ciencias y matemáticas. Tengo un enfoque práctico y adaptado al nivel de cada estudiante.",
   schedule: {
     Lunes: ["14:00-18:00"],
-    Martes: ["14:00-18:00"],
+    Martes: ["No disponible"],
     Miércoles: ["16:00-20:00"],
-    Jueves: ["14:00-18:00"],
-    Viernes: ["14:00-17:00"],
+    Jueves: ["No disponible"],
+    Viernes: ["16:00-20:00"],
     Sábado: ["09:00-12:00", "14:00-17:00"],
     Domingo: ["No disponible"],
   },
   achievements: [
     "Top 5% de tutores mejor calificados",
-    "Más de 1000 horas de tutoría",
-    "Especialista en preparación preuniversitaria",
+    "Más de 100 horas de tutoría",
+    "Especialista en reforzamiento académico: Ciencias"
   ],
   reviews: [
     {
       id: 1,
-      student: "Carlos M.",
+      student: "Lucía P.",
       rating: 5,
-      comment: "Excelente tutora, muy paciente y explica súper bien. Mejoré mucho en matemáticas gracias a ella.",
-      date: "Hace 2 semanas",
+      comment: "Gilbert explica química de forma sencilla y me ayudó a subir mis notas de Química rápidamente.",
+      date: "Hace 1 semana",
     },
     {
       id: 2,
-      student: "Ana L.",
+      student: "Pedro S.",
       rating: 5,
-      comment: "María me ayudó a entender física de una manera muy clara. Recomendada 100%.",
-      date: "Hace 1 mes",
+      comment: "Muy profesional y puntual. Las clases de física fueron muy didácticas.",
+      date: "Hace 3 semanas",
     },
     {
       id: 3,
-      student: "Diego R.",
-      rating: 4,
-      comment: "Muy buena metodología, siempre puntual y preparada para las clases.",
+      student: "Daniela R.",
+      rating: 5,
+      comment: "Me ayudó muchísimo para prepararme para el examen de admisión, en las preguntas de Física. 100% recomendado.",
       date: "Hace 2 meses",
     },
   ],
@@ -78,7 +78,7 @@ export default function TutorProfilePage({ params }: { params: { id: string } })
                 </Button>
               </Link>
               <Link href="/auth/login">
-                <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50">
+                <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50 bg-transparent">
                   Iniciar Sesión
                 </Button>
               </Link>
@@ -227,7 +227,7 @@ export default function TutorProfilePage({ params }: { params: { id: string } })
                     </div>
                   </div>
                 ))}
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full bg-transparent">
                   Ver todas las reseñas
                 </Button>
               </CardContent>
@@ -247,7 +247,7 @@ export default function TutorProfilePage({ params }: { params: { id: string } })
                 <Link href={`/booking/${tutorData.id}`}>
                   <Button className="w-full bg-orange-600 hover:bg-orange-700 text-lg py-3">Agendar Clase</Button>
                 </Link>
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full bg-transparent">
                   Enviar Mensaje
                 </Button>
                 <Separator />
@@ -260,15 +260,19 @@ export default function TutorProfilePage({ params }: { params: { id: string } })
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Clases completadas:</span>
-                      <span className="font-medium">350+</span>
+                      <span className="font-medium">15</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Estudiantes activos:</span>
-                      <span className="font-medium">45</span>
+                      <span className="font-medium">7</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-600">Última conexión:</span>
-                      <span className="font-medium text-green-600">En línea</span>
+                      <span className="font-medium text-orange-600">Hace 1 día</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Apoderado registrado:</span>
+                      <span className="font-medium text-green-600">Sí</span>
                     </div>
                   </div>
                 </div>

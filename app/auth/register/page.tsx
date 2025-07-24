@@ -43,10 +43,11 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [studentData, setStudentData] = useState({
     name: "",
-    email: "",
     password: "",
     confirmPassword: "",
     grade: "",
+    guardianEmail: "",
+    guardianPhone: "",
   })
   const [tutorData, setTutorData] = useState({
     name: "",
@@ -62,6 +63,8 @@ export default function RegisterPage() {
     e.preventDefault()
     console.log("Student registration:", studentData)
     // Aquí iría la lógica de registro
+    // Redirigir cuestionario IA
+    window.location.href = "/ai-recommendation?newUser=true"
   }
 
   const handleTutorSubmit = (e: React.FormEvent) => {
@@ -142,16 +145,28 @@ export default function RegisterPage() {
                       </Select>
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="student-email">Correo electrónico</Label>
-                    <Input
-                      id="student-email"
-                      type="email"
-                      placeholder="tu@email.com"
-                      value={studentData.email}
-                      onChange={(e) => setStudentData({ ...studentData, email: e.target.value })}
-                      required
-                    />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="guardian-email">E-mail Apoderado</Label>
+                      <Input
+                        id="guardian-email"
+                        type="email"
+                        placeholder="john.doe@gmail.com"
+                        value={studentData.guardianEmail}
+                        onChange={(e) => setStudentData({ ...studentData, guardianEmail: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="guardian-phone">Teléfono Apoderado</Label>
+                      <Input
+                          id="guardian-phone"
+                          type="tel"
+                          value={studentData.guardianPhone}
+                          onChange={(e) => setStudentData({ ...studentData, guardianPhone: e.target.value })}
+                          required
+                      />
+                    </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">

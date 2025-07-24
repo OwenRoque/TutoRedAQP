@@ -2,12 +2,14 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
-import { BookOpen, Brain, Star, ArrowRight, Sparkles } from "lucide-react"
+import { Checkbox } from "@/components/ui/checkbox"
+import { BookOpen, Brain, Star, ArrowRight, Sparkles, User } from "lucide-react"
 import Image from "next/image"
 
 const questions = [
@@ -48,6 +50,35 @@ const questions = [
       { value: "virtual", label: "Virtual - Desde casa" },
       { value: "presencial", label: "Presencial - En persona" },
       { value: "ambas", label: "Ambas modalidades me parecen bien" },
+    ],
+  },
+  {
+    id: 5,
+    question: "¿Cuáles son tus horarios disponibles?",
+    type: "multiple",
+    options: [
+      { value: "manana", label: "Mañanas (8:00 - 12:00)" },
+      { value: "tarde", label: "Tardes (12:00 - 18:00)" },
+      { value: "noche", label: "Noches (18:00 - 22:00)" },
+    ],
+    days: [
+      { value: "lunes", label: "Lunes" },
+      { value: "martes", label: "Martes" },
+      { value: "miercoles", label: "Miércoles" },
+      { value: "jueves", label: "Jueves" },
+      { value: "viernes", label: "Viernes" },
+      { value: "sabado", label: "Sábado" },
+      { value: "domingo", label: "Domingo" },
+    ],
+  },
+  {
+    id: 6,
+    question: "¿Cuál es tu objetivo principal con las tutorías?",
+    options: [
+      { value: "mejorar-notas", label: "Mejorar calificaciones actuales" },
+      { value: "examen-admision", label: "Preparar examen de admisión" },
+      { value: "aprender-cero", label: "Aprender desde cero" },
+      { value: "reforzar-temas", label: "Reforzar solo temas específicos" },
     ],
   },
 ]
@@ -93,13 +124,25 @@ const recommendedTutors = [
 ]
 
 export default function AIRecommendationPage() {
+  const searchParams = useSearchParams()
+  const isNewUser = searchParams.get("newUser") === "true"
+
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [answers, setAnswers] = useState<Record<number, string>>({})
+  const [answers, setAnswers] = useState<Record<number, string | string[]>>({})
   const [showResults, setShowResults] = useState(false)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
 
-  const handleAnswer = (questionId: number, answer: string) => {
+  const handleAnswer = (questionId: number, answer: string | string[]) => {
     setAnswers({ ...answers, [questionId]: answer })
+  }
+
+  const handleMultipleAnswer = (questionId: number, value: string, checked: boolean) => {
+    const currentAnswers = (answers[questionId] as string[]) || []
+    if (checked) {
+      setAnswers({ ...answers, [questionId]: [...currentAnswers, value] })
+    } else {
+      setAnswers({ ...answers, [questionId]: currentAnswers.filter((a) => a !== value) })
+    }
   }
 
   const handleNext = () => {
@@ -127,6 +170,13 @@ export default function AIRecommendationPage() {
     setShowResults(false)
     setIsAnalyzing(false)
   }
+
+  const currentQuestionData = questions[currentQuestion]
+  const hasAnswer =
+      answers[currentQuestionData.id] &&
+      (Array.isArray(answers[currentQuestionData.id])
+          ? (answers[currentQuestionData.id] as string[]).length > 0
+          : answers[currentQuestionData.id] !== "")
 
   if (isAnalyzing) {
     return (
@@ -163,14 +213,31 @@ export default function AIRecommendationPage() {
                 <BookOpen className="h-8 w-8 text-orange-600" />
                 <span className="text-2xl font-bold text-gray-900">TutoRedAQP</span>
               </Link>
-              <Button onClick={handleRestart} variant="outline">
-                Hacer test nuevamente
-              </Button>
+              <div className="flex items-center space-x-4">
+                <Button onClick={handleRestart} variant="outline">
+                  Hacer test nuevamente
+                </Button>
+                <div className="relative">
+                  <Button variant="ghost" className="flex items-center space-x-2">
+                    <User className="h-5 w-5" />
+                    <span>Mi Cuenta</span>
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </header>
 
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {isNewUser && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <h2 className="text-green-800 font-semibold mb-2">¡Bienvenido a TutoríaAQP! 🎉</h2>
+                <p className="text-green-700">
+                  Hemos analizado tu perfil y estos son los tutores que mejor se adaptan a tus necesidades.
+                </p>
+              </div>
+          )}
+
           <div className="text-center mb-8">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Sparkles className="h-8 w-8 text-orange-600" />
@@ -231,7 +298,7 @@ export default function AIRecommendationPage() {
 
                       <div className="flex space-x-3">
                         <Link href={`/tutor/${tutor.id}`} className="flex-1">
-                          <Button variant="outline" className="w-full">
+                          <Button variant="outline" className="w-full bg-transparent">
                             Ver Perfil Completo
                           </Button>
                         </Link>
@@ -249,7 +316,7 @@ export default function AIRecommendationPage() {
           <div className="text-center mt-8">
             <p className="text-gray-600 mb-4">¿No encuentras lo que buscas? Explora todos nuestros tutores</p>
             <Link href="/search">
-              <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50">
+              <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50 bg-transparent">
                 Ver Todos los Tutores
               </Button>
             </Link>
@@ -269,16 +336,30 @@ export default function AIRecommendationPage() {
               <BookOpen className="h-8 w-8 text-orange-600" />
               <span className="text-2xl font-bold text-gray-900">TutoRedAQP</span>
             </Link>
-            <Link href="/search">
-              <Button variant="outline" className="border-orange-600 text-orange-600 hover:bg-orange-50">
-                Buscar Manualmente
-              </Button>
-            </Link>
+            {!isNewUser && (
+                <Link href="/search">
+                  <Button
+                      variant="outline"
+                      className="border-orange-600 text-orange-600 hover:bg-orange-50 bg-transparent"
+                  >
+                    Buscar Manualmente
+                  </Button>
+                </Link>
+            )}
           </div>
         </div>
       </header>
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {isNewUser && (
+            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
+              <h2 className="text-orange-800 font-semibold mb-2">¡Último paso! 🎯</h2>
+              <p className="text-orange-700">
+                Para recomendarte los mejores tutores, necesitamos conocer un poco más sobre ti.
+              </p>
+            </div>
+        )}
+
         <div className="text-center mb-8">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Brain className="h-8 w-8 text-orange-600" />
@@ -307,26 +388,72 @@ export default function AIRecommendationPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-xl">{questions[currentQuestion].question}</CardTitle>
-            <CardDescription>Selecciona la opción que mejor te describa</CardDescription>
+            <CardTitle className="text-xl">{currentQuestionData.question}</CardTitle>
+            <CardDescription>
+              {currentQuestionData.type === "multiple"
+                  ? "Selecciona todas las opciones que apliquen"
+                  : "Selecciona la opción que mejor te describa"}
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <RadioGroup
-              value={answers[questions[currentQuestion].id] || ""}
-              onValueChange={(value) => handleAnswer(questions[currentQuestion].id, value)}
-            >
-              {questions[currentQuestion].options.map((option) => (
-                <div
-                  key={option.value}
-                  className="flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
-                >
-                  <RadioGroupItem value={option.value} id={option.value} />
-                  <Label htmlFor={option.value} className="flex-1 cursor-pointer">
-                    {option.label}
-                  </Label>
+            {currentQuestionData.type === "multiple" ? (
+                <div className="space-y-4">
+                  {/* Horarios */}
+                  <div>
+                    <Label className="text-base font-medium mb-3 block">Horarios preferidos:</Label>
+                    <div className="space-y-2">
+                      {currentQuestionData.options?.map((option) => (
+                          <div key={option.value} className="flex items-center space-x-2">
+                            <Checkbox
+                                id={option.value}
+                                checked={((answers[currentQuestionData.id] as string[]) || []).includes(option.value)}
+                                onCheckedChange={(checked) =>
+                                    handleMultipleAnswer(currentQuestionData.id, option.value, checked as boolean)
+                                }
+                            />
+                            <Label htmlFor={option.value}>{option.label}</Label>
+                          </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Días */}
+                  <div>
+                    <Label className="text-base font-medium mb-3 block">Días disponibles:</Label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {currentQuestionData.days?.map((day) => (
+                          <div key={day.value} className="flex items-center space-x-2">
+                            <Checkbox
+                                id={day.value}
+                                checked={((answers[currentQuestionData.id] as string[]) || []).includes(day.value)}
+                                onCheckedChange={(checked) =>
+                                    handleMultipleAnswer(currentQuestionData.id, day.value, checked as boolean)
+                                }
+                            />
+                            <Label htmlFor={day.value}>{day.label}</Label>
+                          </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              ))}
-            </RadioGroup>
+            ) : (
+              <RadioGroup
+                  value={(answers[currentQuestionData.id] as string) || ""}
+                  onValueChange={(value) => handleAnswer(currentQuestionData.id, value)}
+              >
+                {currentQuestionData.options.map((option) => (
+                  <div
+                    key={option.value}
+                    className="flex items-center space-x-2 p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
+                  >
+                    <RadioGroupItem value={option.value} id={option.value} />
+                    <Label htmlFor={option.value} className="flex-1 cursor-pointer">
+                      {option.label}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            )}
           </CardContent>
         </Card>
 
@@ -336,7 +463,7 @@ export default function AIRecommendationPage() {
           </Button>
           <Button
             onClick={handleNext}
-            disabled={!answers[questions[currentQuestion].id]}
+            disabled={!hasAnswer}
             className="bg-orange-600 hover:bg-orange-700"
           >
             {currentQuestion === questions.length - 1 ? (
