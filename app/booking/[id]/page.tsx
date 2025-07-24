@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { BookOpen, CalendarIcon, Clock, MapPin, User, ArrowLeft, CheckCircle } from "lucide-react"
 import Image from "next/image"
+import { use } from "react"
 
 // Mock data del tutor
 const tutorData = {
@@ -30,12 +31,9 @@ const tutorData = {
 }
 
 const timeSlots = ["14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"]
-//
-// type BookingPageProps = {
-//   params: { id: string }
-// }
 
-export default async function BookingPage({ params }: { params: { id: string } }) {
+export default function BookingPage({ params }: { params: Promise<{ id: string }> }) {
+  const tutorId = use(params)
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [selectedTime, setSelectedTime] = useState("")
   const [selectedModality, setSelectedModality] = useState("")
@@ -51,7 +49,7 @@ export default async function BookingPage({ params }: { params: { id: string } }
     } else {
       // Procesar la reserva
       console.log("Booking submitted:", {
-        tutorId: params.id,
+        tutorId: tutorId,
         date: selectedDate,
         time: selectedTime,
         modality: selectedModality,
@@ -75,7 +73,7 @@ export default async function BookingPage({ params }: { params: { id: string } }
               <span className="text-2xl font-bold text-gray-900">TutoRedAQP</span>
             </Link>
             <div className="flex items-center space-x-4">
-              <Link href={`/tutor/${params.id}`}>
+              <Link href={`/tutor/${tutorId}`}>
                 <Button variant="ghost" className="flex items-center space-x-2">
                   <ArrowLeft className="h-4 w-4" />
                   <span>Volver al perfil</span>

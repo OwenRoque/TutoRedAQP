@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { BookOpen, CreditCard, Smartphone, Shield, ArrowLeft, CheckCircle } from "lucide-react"
 import Image from "next/image"
+import { use } from "react"
 
 // Mock data de la reserva
 const bookingData = {
@@ -31,7 +32,8 @@ const bookingData = {
   total: 27,
 }
 
-export default function PaymentPage({ params }: { params: { bookingId: string } }) {
+export default function PaymentPage({ params }: { params: Promise<{ bookingId: string }> }) {
+  const bookingId = use(params)
   const [paymentMethod, setPaymentMethod] = useState("")
   const [cardData, setCardData] = useState({
     number: "",
@@ -118,7 +120,7 @@ export default function PaymentPage({ params }: { params: { bookingId: string } 
               <span className="text-2xl font-bold text-gray-900">TutoRedAQP</span>
             </Link>
             <div className="flex items-center space-x-4">
-              <Link href={`/booking/${params.bookingId}`}>
+              <Link href={`/booking/${bookingId}`}>
                 <Button variant="ghost" className="flex items-center space-x-2">
                   <ArrowLeft className="h-4 w-4" />
                   <span>Volver</span>

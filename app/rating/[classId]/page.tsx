@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea"
 import { BookOpen, Star, CheckCircle, ArrowLeft } from "lucide-react"
 import Image from "next/image"
+import { use } from "react"
 
 // Mock data de la clase completada
 const classData = {
@@ -23,7 +24,8 @@ const classData = {
   duration: "1 hora",
 }
 
-export default function RatingPage({ params }: { params: { classId: string } }) {
+export default function RatingPage({ params }: { params: Promise<{ classId: string }> }) {
+  const classId = use(params)
   const [rating, setRating] = useState(0)
   const [hoveredRating, setHoveredRating] = useState(0)
   const [comment, setComment] = useState("")
@@ -32,7 +34,7 @@ export default function RatingPage({ params }: { params: { classId: string } }) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Rating submitted:", {
-      classId: params.classId,
+      classId: classId,
       rating,
       comment,
     })
